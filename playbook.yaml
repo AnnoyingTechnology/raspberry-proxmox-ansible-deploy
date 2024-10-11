@@ -1,0 +1,68 @@
+---
+- hosts: raspberryfarm
+  become: yes
+  vars:
+    dns_server: 192.168.1.1
+    gateway: 192.168.1.1
+
+  tasks:
+    - name: Update apt cache and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
+    - name: Set the hostname
+      hostname:
+        name: "{{ inventory_hostname }}"
+
+    - name: Update /etc/hosts file
+      template:
+        src: templates/cephalopod/hosts.j2
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: '0644'
+      vars:
+        ip_address: "{{ hostvars[inventory_hostname].ansible_host }}"
+        hostname: "{{ inventory_hostname }}"
+
+    - name: Update /etc/network/interfaces
+      template:
+        src: templates/cephalopod/interfaces.j2
+        dest: /etc/network/interfaces
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Set DNS server in /etc/resolv.conf
+      copy:
+        dest: /etc/resolv.conf
+        content: "nameserver {{ dns_server }}\n"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Restart relevent services
+      service:
+        name: "{{ item }}"
+        state: restarted
+      loop: 
+        - systemd-networkd
+        - systemd-hostnamed
+
+    - name: Install ifupdown2
+      apt:
+        name: ifupdown2
+        state: present
+
+    - name: Install Proxmox and related packages without recommends (to avoid X11)
+      apt:
+        name:
+          - proxmox-ve
+          - postfix
+          - open-iscsi
+          - chrony
+          - mmc-utils
+          - usbutils
+        state: present
+        install_recommends: no
