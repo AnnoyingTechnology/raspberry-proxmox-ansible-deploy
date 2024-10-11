@@ -1,5 +1,6 @@
 # raspberry-proxmox-ansible-deploy
 Configure multiple freshly installed Raspberry as working Proxmox 8+ nodes.
+If you are lazy, if you want consistency, if you have lots of boards to configure or all above, the playbook is for you.
 
 It assumes
 - that you have paired your public key using rpi-imager (don't create an account, just set your public key and use Raspberry OS 64 Lite).
