@@ -18,4 +18,9 @@ The playbook will then
 
 All that remains after running the playbook, it to make them join the same cluster. 
 
+**Duration**: it took 5 minutes 
+- to setup 4x Raspberry 5 boards in //
+- with a 500Mbps WAN 
+- on class U1/V10 32GB Lexar MicroSDs
+
 **DISCLAIMER** the proxmox for ARM64 resposity is maintained by a single China resident. He is either extremely generous (and I thank him for providing the repository) or state sponsored to inject backdoors. It's up to you to trust or not this repo. You may want to set router's firewall rules accordingly.
