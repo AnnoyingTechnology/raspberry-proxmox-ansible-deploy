@@ -5,6 +5,14 @@
     dns_server: 192.168.1.1
     gateway: 192.168.1.1
 
+  vars_prompt:
+    - name: new_root_password_encrypted
+      prompt: Please enter the new root password
+      private: true
+      encrypt: sha512_crypt
+      confirm: true
+      unsafe: true
+
   tasks:
     - name: Update apt cache and upgrade packages
       apt:
@@ -88,3 +96,8 @@
           - usbutils
         state: present
         install_recommends: no
+
+    - name: Change root password
+      user:
+        name: root
+        password: "{{ new_root_password_encrypted }}"
