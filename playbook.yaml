@@ -55,6 +55,28 @@
         name: ifupdown2
         state: present
 
+    - name: Ensure pveport.list exists
+      copy:
+        dest: /etc/apt/sources.list.d/pveport.list
+        content: "deb [arch=arm64] http://global.mirrors.apqa.cn/proxmox/debian/pve bookworm port\n"
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Download pveport.gpg key
+      get_url:
+        url: https://global.mirrors.apqa.cn/proxmox/debian/pveport.gpg
+        dest: /etc/apt/trusted.gpg.d/pveport.gpg
+        validate_certs: no
+        owner: root
+        group: root
+        mode: '0644'
+
+    - name: Update apt cache and upgrade packages
+      apt:
+        update_cache: yes
+        upgrade: yes
+
     - name: Install Proxmox and related packages without recommends (to avoid X11)
       apt:
         name:
