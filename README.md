@@ -2,8 +2,14 @@
 Configure multiple freshly installed Raspberry as working Proxmox 8+ nodes.
 
 It assumes
-- that you have paired your public key using rpi-imager (don't create an account, just set your public key).
+- that you have paired your public key using rpi-imager (don't create an account, just set your public key and use Raspberry OS 64 Lite).
 - that you have assigned prefered IPs using MAC addresses on you DHCP server. 
+- that you have edited the following vars of the playbook
+```
+    dns_server: ...
+    gateway: ...
+```
+- that you have declared the IPs of your raspberries in the inventory
 
 The playbook will then
 - assign those IP permanently as static IP.
