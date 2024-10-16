@@ -94,6 +94,8 @@
           - chrony
           - mmc-utils
           - usbutils
+          - libpve-network-perl
+          - dnsmasq
         state: present
         install_recommends: no
 
